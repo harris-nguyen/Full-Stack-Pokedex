@@ -6,7 +6,9 @@ export default class Pokemon extends React.Component {
     const visiable = this.props.visiable;
     const data = this.props.pokemon;
     const pokeData = data.slice(0, visiable).map((e, index) => {
-      return <PokemonTable key={index} name={e.name}/>;
+      return (
+        <PokemonTable key={index} name={e.name} setView={this.props.setView} />
+      );
     });
     return (
       <div>

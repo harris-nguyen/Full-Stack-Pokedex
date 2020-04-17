@@ -1,5 +1,6 @@
 import React from 'react';
 import Pokemon from './pokemon';
+import Details from './Details';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ export default class App extends React.Component {
       message: null,
       isLoading: true,
       allpokemon: [],
-      view: { name: 'pokedex' },
+      view: { name: 'pokedex', params: {} },
       visiable: 10
     };
     this.getPokeApi = this.getPokeApi.bind(this);
@@ -40,7 +41,7 @@ export default class App extends React.Component {
   }
 
   getPokeApi() {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=150')
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=807')
       .then(res => res.json())
       .then(allpokemon => {
         const data = allpokemon.results;
@@ -55,15 +56,27 @@ export default class App extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <Pokemon
-          pokemon={this.state.allpokemon}
-          visiable={this.state.visiable}
-          pokeAPI={this.state.allpokemon}
-          loadmore={this.loadmore}
-        />
-      </div>
-    );
+    switch (this.state.view.name) {
+      case 'pokedex':
+        return (
+          <div>
+            <Pokemon
+              pokemon={this.state.allpokemon}
+              visiable={this.state.visiable}
+              pokeAPI={this.state.allpokemon}
+              loadmore={this.loadmore}
+              setView={this.setView}
+            />
+          </div>
+        );
+      case 'details':
+        return (
+          <div className="">
+            <div>
+              <Details setView={this.setView} id={this.state.view.params} />
+            </div>
+          </div>
+        );
+    }
   }
 }

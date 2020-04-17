@@ -66,15 +66,24 @@ export default class PokemonTable extends React.Component {
               {this.props.name}
             </h5>
 
-            <div className="container">
-              <div><b>Type:</b> {this.state.type}</div>
-              <div><b>Abilities:</b> {this.state.abilities}</div>
-              <div><b>Stats:</b> {this.state.stats1}</div>
-              <div><b>Weight:</b> {`${this.state.weight} lbs`}</div>
-            </div>
           </div>
         </div>
 
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={() =>
+            this.props.setView('details', {
+              id: this.state.id,
+              type: this.state.type,
+              abilities: this.state.abilities,
+              stats: this.state.stats1,
+              weight: this.state.weight
+            })
+          }
+        >
+          Details
+        </button>
       </div>
     );
   }
