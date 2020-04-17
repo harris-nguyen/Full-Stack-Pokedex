@@ -74,6 +74,7 @@ export default class PokemonTable extends React.Component {
             </div>
           </div>
         </div>
+
       </div>
     );
   }

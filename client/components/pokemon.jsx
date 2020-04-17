@@ -3,14 +3,33 @@ import PokemonTable from './pokemonTable';
 
 export default class Pokemon extends React.Component {
   render() {
+    const visiable = this.props.visiable;
     const data = this.props.pokemon;
-    const pokeData = data.map((e, index) => {
-      return <PokemonTable key={index} name={e.name} url={e.url}/>;
+    const pokeData = data.slice(0, visiable).map((e, index) => {
+      return <PokemonTable key={index} name={e.name}/>;
     });
     return (
       <div>
         <div className="conatiner card-deck cardText text-center">
           {pokeData}
+        </div>
+
+        <div className="container">
+          <div className="row text-center">
+            <div className="col">
+              <div className="pokedexIcon">
+                {visiable < this.props.pokemon.length && (
+                  <button
+                    onClick={this.props.loadmore}
+                    type="button"
+                    className="btn btn-dark"
+                  >
+                    Load 10 More
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

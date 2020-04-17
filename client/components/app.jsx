@@ -8,9 +8,12 @@ export default class App extends React.Component {
       message: null,
       isLoading: true,
       allpokemon: [],
-      view: { name: 'pokedex' }
+      view: { name: 'pokedex' },
+      visiable: 10
     };
     this.getPokeApi = this.getPokeApi.bind(this);
+    this.loadmore = this.loadmore.bind(this);
+    this.setView = this.setView.bind(this);
   }
 
   componentDidMount() {
@@ -28,8 +31,16 @@ export default class App extends React.Component {
     this.setState({ view: { name, params } });
   }
 
+  loadmore() {
+    this.setState(old => {
+      return {
+        visiable: old.visiable + 10
+      };
+    });
+  }
+
   getPokeApi() {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=9')
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=150')
       .then(res => res.json())
       .then(allpokemon => {
         const data = allpokemon.results;
@@ -46,7 +57,12 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Pokemon pokemon={this.state.allpokemon} />
+        <Pokemon
+          pokemon={this.state.allpokemon}
+          visiable={this.state.visiable}
+          pokeAPI={this.state.allpokemon}
+          loadmore={this.loadmore}
+        />
       </div>
     );
   }
