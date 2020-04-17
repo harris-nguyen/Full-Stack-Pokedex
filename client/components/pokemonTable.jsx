@@ -24,7 +24,7 @@ export default class PokemonTable extends React.Component {
       .then(res => res.json())
       .then(data => {
         const type = data.types.map(e => e.type.name);
-        const pokeType = `${type[0]}, ${type[1]}`;
+        const pokeType = type.length === 2 ? `${type[0]}, ${type[1]}` : type[0];
         const abilities = data.abilities.map(e => e.ability.name);
         const pokeAbilities = `${abilities[0]}, ${abilities[1]}`;
         const stats = data.stats.map(e => e.stat.name);
