@@ -24,7 +24,7 @@ export default class PokemonTable extends React.Component {
       .then(res => res.json())
       .then(data => {
         const type = data.types.map(e => e.type.name);
-        const pokeType = `${type[0]}, ${type[1]}`;
+        const pokeType = type.length === 2 ? `${type[0]}, ${type[1]}` : type[0];
         const abilities = data.abilities.map(e => e.ability.name);
         const pokeAbilities = `${abilities[0]}, ${abilities[1]}`;
         const stats = data.stats.map(e => e.stat.name);
@@ -66,14 +66,24 @@ export default class PokemonTable extends React.Component {
               {this.props.name}
             </h5>
 
-            <div className="container">
-              <div><b>Type:</b> {this.state.type}</div>
-              <div><b>Abilities:</b> {this.state.abilities}</div>
-              <div><b>Stats:</b> {this.state.stats1}</div>
-              <div><b>Weight:</b> {`${this.state.weight} lbs`}</div>
-            </div>
           </div>
         </div>
+
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={() =>
+            this.props.setView('details', {
+              id: this.state.id,
+              type: this.state.type,
+              abilities: this.state.abilities,
+              stats: this.state.stats1,
+              weight: this.state.weight
+            })
+          }
+        >
+          Details
+        </button>
       </div>
     );
   }
