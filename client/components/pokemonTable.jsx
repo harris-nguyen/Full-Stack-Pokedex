@@ -53,7 +53,20 @@ export default class PokemonTable extends React.Component {
     const img = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeID}.png?raw=true`;
 
     return (
-      <div className="col-sm-4 paddingCard">
+      <div
+        type="button"
+        className="col-sm-4 paddingCard zoom"
+        onClick={() =>
+          this.props.setView('details', {
+            id: this.state.id,
+            type: this.state.type,
+            abilities: this.state.abilities,
+            stats: this.state.stats1,
+            weight: this.state.weight,
+            name: this.props.name
+          })
+        }
+      >
         <div className="card ">
           <img
             src={img}
@@ -65,26 +78,25 @@ export default class PokemonTable extends React.Component {
               {`${this.state.id}. `}
               {this.props.name}
             </h5>
-
           </div>
         </div>
-
-        <button
-          type="button"
-          className="btn btn-warning"
-          onClick={() =>
-            this.props.setView('details', {
-              id: this.state.id,
-              type: this.state.type,
-              abilities: this.state.abilities,
-              stats: this.state.stats1,
-              weight: this.state.weight
-            })
-          }
-        >
-          Details
-        </button>
       </div>
     );
   }
 }
+
+// <button
+//   type="button"
+//   className="btn btn-warning"
+//   onClick={() =>
+//     this.props.setView('details', {
+//       id: this.state.id,
+//       type: this.state.type,
+//       abilities: this.state.abilities,
+//       stats: this.state.stats1,
+//       weight: this.state.weight
+//     })
+//   }
+// >
+//   Details
+// </button>
