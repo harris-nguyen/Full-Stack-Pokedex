@@ -9,20 +9,9 @@ export default class Pokemon extends React.Component {
     });
     return (
       <div>
-        <table className="table table-striped text-center">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Image</th>
-              <th scope="col">Pokemon</th>
-              <th scope="col">Type</th>
-              <th scope="col">Attacks</th>
-              <th scope="col">Stats</th>
-              <th scope="col">Weight</th>
-            </tr>
-          </thead>
-          <tbody>{pokeData}</tbody>
-        </table>
+        <div className="conatiner card-deck cardText text-center">
+          {pokeData}
+        </div>
       </div>
     );
   }

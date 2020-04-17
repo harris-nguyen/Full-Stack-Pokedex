@@ -9,8 +9,7 @@ export default class PokemonTable extends React.Component {
       weight: '',
       type: '',
       abilities: '',
-      stats1: '',
-      state2: ''
+      stats1: ''
     };
     this.getPokeType = this.getPokeType.bind(this);
   }
@@ -34,9 +33,6 @@ export default class PokemonTable extends React.Component {
         ${stats[0]}: ${baseStat[0]},
         ${stats[1]}: ${baseStat[1]} ,
         ${stats[2]}: ${baseStat[2]} ,
-        `;
-
-        const pokeStats2 = `
         ${stats[3]}: ${baseStat[3]} ,
         ${stats[4]}: ${baseStat[4]} ,
         ${stats[5]}: ${baseStat[5]}`;
@@ -47,8 +43,7 @@ export default class PokemonTable extends React.Component {
           weight: data.weight,
           type: pokeType,
           abilities: pokeAbilities,
-          stats1: pokeStats1,
-          stats2: pokeStats2
+          stats1: pokeStats1
         });
       });
   }
@@ -58,24 +53,28 @@ export default class PokemonTable extends React.Component {
     const img = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeID}.png?raw=true`;
 
     return (
-      <tr>
-        <td>{this.state.id}</td>
-        <td>
-          <div>
-            <img src={img} className="rounded w-5 p-3 " alt="pokemon"></img>
+      <div className="col-sm-4 paddingCard">
+        <div className="card ">
+          <img
+            src={img}
+            className="rounded w-50 p-3 center"
+            alt="pokemon"
+          ></img>
+          <div className="card-body">
+            <h5 className="card-title">
+              {`${this.state.id}. `}
+              {this.props.name}
+            </h5>
+
+            <div className="container">
+              <div><b>Type:</b> {this.state.type}</div>
+              <div><b>Abilities:</b> {this.state.abilities}</div>
+              <div><b>Stats:</b> {this.state.stats1}</div>
+              <div><b>Weight:</b> {`${this.state.weight} lbs`}</div>
+            </div>
           </div>
-        </td>
-        <td>{this.props.name}</td>
-        <td>{this.state.type}</td>
-        <td>{this.state.abilities}</td>
-        <td>
-          {this.state.stats1}
-          <div>
-            {this.state.stats2}
-          </div>
-        </td>
-        <td>{`${this.state.weight} lbs`}</td>
-      </tr>
+        </div>
+      </div>
     );
   }
 }
