@@ -56,7 +56,7 @@ export default class PokemonTable extends React.Component {
     return (
       <div
         type="button"
-        className="col-sm-4 paddingCard zoom"
+        className="col-sm-4 paddingCard"
         onClick={() =>
           this.props.setView('details', {
             id: this.state.id,
@@ -68,7 +68,7 @@ export default class PokemonTable extends React.Component {
           })
         }
       >
-        <div className="card ">
+        <div className="card zoom">
           <img
             src={img}
             className="rounded w-50 p-3 center"
