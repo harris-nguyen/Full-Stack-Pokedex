@@ -6,7 +6,7 @@ export default class Details extends React.Component {
     const pokeID = this.props.id.id;
     const img = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeID}.png?raw=true`;
     return (
-      <div className="container">
+      <div className="container backGroundRed">
         <div className="card">
           <div className="row align-items-center">
             <div className="col-4 ">
