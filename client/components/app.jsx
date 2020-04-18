@@ -11,7 +11,7 @@ export default class App extends React.Component {
       isLoading: true,
       allpokemon: [],
       view: { name: 'pokedex', params: {} },
-      visiable: 10
+      visiable: 9
     };
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
@@ -36,7 +36,7 @@ export default class App extends React.Component {
   loadmore() {
     this.setState(old => {
       return {
-        visiable: old.visiable + 10
+        visiable: old.visiable + 9
       };
     });
   }
