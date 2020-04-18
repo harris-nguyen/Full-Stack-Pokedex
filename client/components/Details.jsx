@@ -20,17 +20,19 @@ export default class Details extends React.Component {
               </div>
             </div>
             <div className="col-8">
-              <div>
-                <b>Type:</b> {this.props.id.type}
-              </div>
-              <div>
-                <b>Abilities:</b> {this.props.id.abilities}
-              </div>
-              <div>
-                <b>Stats:</b> {this.props.id.stats}
-              </div>
-              <div>
-                <b>Weight:</b> {this.props.id.weight}
+              <div className='container'>
+                <div>
+                  <b>Type:</b> {this.props.id.type}
+                </div>
+                <div>
+                  <b>Abilities:</b> {this.props.id.abilities}
+                </div>
+                <div>
+                  <b>Stats:</b> {this.props.id.stats}
+                </div>
+                <div>
+                  <b>Weight:</b> {`${this.props.id.weight} lbs`}
+                </div>
               </div>
             </div>
           </div>

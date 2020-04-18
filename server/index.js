@@ -19,17 +19,14 @@ app.get('/api/health-check', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/products', (req, res, next) => {
-  const sql = `
-  SELECT *
-  FROM "products"
-  `;
+app.get('/api/caught', (req, res, next) => {
+  if (!('caughtId' in req.session)) {
+    return res.status(200).json([]);
+  }
+});
 
-  db.query(sql)
-    .then(result => {
-      res.json(result.rows);
-    })
-    .catch(err => next(err));
+app.post('/api/caught', (req, res, next) => {
+
 });
 
 app.use('/api', (req, res, next) => {

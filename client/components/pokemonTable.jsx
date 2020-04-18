@@ -51,6 +51,7 @@ export default class PokemonTable extends React.Component {
   render() {
     const pokeID = this.state.id;
     const img = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeID}.png?raw=true`;
+    const name = this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1);
 
     return (
       <div
@@ -63,7 +64,7 @@ export default class PokemonTable extends React.Component {
             abilities: this.state.abilities,
             stats: this.state.stats1,
             weight: this.state.weight,
-            name: this.props.name
+            name: name
           })
         }
       >
@@ -76,7 +77,7 @@ export default class PokemonTable extends React.Component {
           <div className="card-body">
             <h5 className="card-title">
               {`${this.state.id}. `}
-              {this.props.name}
+              {name}
             </h5>
           </div>
         </div>
@@ -84,19 +85,3 @@ export default class PokemonTable extends React.Component {
     );
   }
 }
-
-// <button
-//   type="button"
-//   className="btn btn-warning"
-//   onClick={() =>
-//     this.props.setView('details', {
-//       id: this.state.id,
-//       type: this.state.type,
-//       abilities: this.state.abilities,
-//       stats: this.state.stats1,
-//       weight: this.state.weight
-//     })
-//   }
-// >
-//   Details
-// </button>
