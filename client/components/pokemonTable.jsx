@@ -24,18 +24,30 @@ export default class PokemonTable extends React.Component {
       .then(res => res.json())
       .then(data => {
         const type = data.types.map(e => e.type.name);
-        const pokeType = type.length === 2 ? `${type[0]}, ${type[1]}` : type[0];
+
+        const pokeType =
+          type.length === 2
+            ? `${type[0].charAt(0).toUpperCase() + type[0].slice(1)}, ${
+                type[1].charAt(0).toUpperCase() + type[1].slice(1)
+              }`
+            : type[0].charAt(0).toUpperCase() + type[0].slice(1);
+
         const abilities = data.abilities.map(e => e.ability.name);
-        const pokeAbilities = `${abilities[0]}, ${abilities[1]}`;
+
+        const pokeAbilities = `${
+          abilities[0].charAt(0).toUpperCase() + abilities[0].slice(1)
+        }, ${abilities[1].charAt(0).toUpperCase() + abilities[1].slice(1)}`;
+
         const stats = data.stats.map(e => e.stat.name);
         const baseStat = data.stats.map(e => e.base_stat);
+
         const pokeStats1 = `
-        ${stats[0]}: ${baseStat[0]},
-        ${stats[1]}: ${baseStat[1]} ,
-        ${stats[2]}: ${baseStat[2]} ,
-        ${stats[3]}: ${baseStat[3]} ,
-        ${stats[4]}: ${baseStat[4]} ,
-        ${stats[5]}: ${baseStat[5]}`;
+        ${stats[0].charAt(0).toUpperCase() + stats[0].slice(1)}: ${baseStat[0]},
+        ${stats[1].charAt(0).toUpperCase() + stats[1].slice(1)}: ${baseStat[1]} ,
+        ${stats[2].charAt(0).toUpperCase() + stats[2].slice(1)}: ${baseStat[2]} ,
+        ${stats[3].charAt(0).toUpperCase() + stats[3].slice(1)}: ${baseStat[3]} ,
+        ${stats[4].charAt(0).toUpperCase() + stats[4].slice(1)}: ${baseStat[4]} ,
+        ${stats[5].toUpperCase()}: ${baseStat[5]}`;
 
         this.setState({
           id: data.id,
