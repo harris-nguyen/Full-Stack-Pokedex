@@ -8,19 +8,15 @@ export default class Details extends React.Component {
     return (
       <div className="container">
         <div className="card">
-          <div className="row">
+          <div className="row align-items-center">
             <div className="col-4 ">
-              <img
-                src={img}
-                className="rounded w-50 p-3 center"
-                alt="pokemon"
-              ></img>
+              <img src={img} className=" w-100 p-3 center" alt="pokemon"></img>
               <div className="text-center">
                 <b>{this.props.id.name}</b>
               </div>
             </div>
             <div className="col-8">
-              <div className='container'>
+              <div className="container">
                 <div>
                   <b>Type:</b> {this.props.id.type}
                 </div>

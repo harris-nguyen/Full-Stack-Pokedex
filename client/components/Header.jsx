@@ -4,7 +4,7 @@ export default class Header extends React.Component {
   render() {
     return (
       <div>
-        <div className="container">
+        <div className="container fade-in">
           <div className="row">
             <div className="col">
               <img
