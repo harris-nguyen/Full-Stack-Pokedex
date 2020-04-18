@@ -12,3 +12,11 @@ img {
 .cardText {
 font-size: 1rem;
 }
+
+.zoom {
+  transition: transform .1s;
+}
+
+.zoom:hover {
+  transform: scale(1.1);
+}

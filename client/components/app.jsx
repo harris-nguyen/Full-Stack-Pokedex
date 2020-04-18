@@ -1,6 +1,7 @@
 import React from 'react';
 import Pokemon from './pokemon';
 import Details from './Details';
+import Header from './Header';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -41,7 +42,7 @@ export default class App extends React.Component {
   }
 
   getPokeApi() {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=50')
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=807')
       .then(res => res.json())
       .then(allpokemon => {
         const data = allpokemon.results;
@@ -60,18 +61,28 @@ export default class App extends React.Component {
       case 'pokedex':
         return (
           <div>
-            <Pokemon
-              pokemon={this.state.allpokemon}
-              visiable={this.state.visiable}
-              pokeAPI={this.state.allpokemon}
-              loadmore={this.loadmore}
-              setView={this.setView}
-            />
+            <div>
+              <Header />
+            </div>
+
+            <div>
+              <Pokemon
+                pokemon={this.state.allpokemon}
+                visiable={this.state.visiable}
+                pokeAPI={this.state.allpokemon}
+                loadmore={this.loadmore}
+                setView={this.setView}
+              />
+            </div>
           </div>
         );
       case 'details':
         return (
-          <div className="">
+          <div>
+            <div>
+              <Header />
+            </div>
+
             <div>
               <Details setView={this.setView} id={this.state.view.params} />
             </div>
