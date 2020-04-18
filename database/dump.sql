@@ -17,9 +17,17 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 ALTER TABLE ONLY public.products DROP CONSTRAINT products_pkey;
+ALTER TABLE ONLY public.caught DROP CONSTRAINT caught_pkey;
+ALTER TABLE ONLY public."caughtPokemon" DROP CONSTRAINT "caughtPokemon_pkey";
 ALTER TABLE public.products ALTER COLUMN "productId" DROP DEFAULT;
+ALTER TABLE public."caughtPokemon" ALTER COLUMN "caughtId" DROP DEFAULT;
+ALTER TABLE public.caught ALTER COLUMN "caughtId" DROP DEFAULT;
 DROP SEQUENCE public."products_productId_seq";
 DROP TABLE public.products;
+DROP SEQUENCE public."caught_caughtId_seq";
+DROP SEQUENCE public."caughtPokemon_caughtId_seq";
+DROP TABLE public."caughtPokemon";
+DROP TABLE public.caught;
 DROP EXTENSION plpgsql;
 DROP SCHEMA public;
 --
@@ -53,6 +61,67 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+--
+-- Name: caught; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.caught (
+    "caughtId" integer NOT NULL,
+    "createdAt" timestamp(6) with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: caughtPokemon; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."caughtPokemon" (
+    "caughtId" integer NOT NULL,
+    "pokeId" integer NOT NULL,
+    "productId" integer NOT NULL
+);
+
+
+--
+-- Name: caughtPokemon_caughtId_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public."caughtPokemon_caughtId_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: caughtPokemon_caughtId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public."caughtPokemon_caughtId_seq" OWNED BY public."caughtPokemon"."caughtId";
+
+
+--
+-- Name: caught_caughtId_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public."caught_caughtId_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: caught_caughtId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public."caught_caughtId_seq" OWNED BY public.caught."caughtId";
+
 
 --
 -- Name: products; Type: TABLE; Schema: public; Owner: -
@@ -89,10 +158,40 @@ ALTER SEQUENCE public."products_productId_seq" OWNED BY public.products."product
 
 
 --
+-- Name: caught caughtId; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.caught ALTER COLUMN "caughtId" SET DEFAULT nextval('public."caught_caughtId_seq"'::regclass);
+
+
+--
+-- Name: caughtPokemon caughtId; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."caughtPokemon" ALTER COLUMN "caughtId" SET DEFAULT nextval('public."caughtPokemon_caughtId_seq"'::regclass);
+
+
+--
 -- Name: products productId; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.products ALTER COLUMN "productId" SET DEFAULT nextval('public."products_productId_seq"'::regclass);
+
+
+--
+-- Data for Name: caught; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.caught ("caughtId", "createdAt") FROM stdin;
+\.
+
+
+--
+-- Data for Name: caughtPokemon; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public."caughtPokemon" ("caughtId", "pokeId", "productId") FROM stdin;
+\.
 
 
 --
@@ -110,10 +209,40 @@ COPY public.products ("productId", name, price, image, "shortDescription", "long
 
 
 --
+-- Name: caughtPokemon_caughtId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public."caughtPokemon_caughtId_seq"', 1, false);
+
+
+--
+-- Name: caught_caughtId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public."caught_caughtId_seq"', 1, false);
+
+
+--
 -- Name: products_productId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public."products_productId_seq"', 1, false);
+
+
+--
+-- Name: caughtPokemon caughtPokemon_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."caughtPokemon"
+    ADD CONSTRAINT "caughtPokemon_pkey" PRIMARY KEY ("caughtId");
+
+
+--
+-- Name: caught caught_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.caught
+    ADD CONSTRAINT caught_pkey PRIMARY KEY ("caughtId");
 
 
 --
