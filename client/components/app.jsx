@@ -24,7 +24,10 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+
+    this.getTest();
     this.getPokeApi();
+
     fetch('/api/health-check')
       .then(res => res.json())
       .then(data =>
