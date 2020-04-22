@@ -1,33 +1,6 @@
 import React from 'react';
 
 export default class Details extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      wishlist: []
-    };
-    this.addToDiscovered = this.addToDiscovered.bind(this);
-  }
-
-  componentDidMount() {
-    this.addToDiscovered();
-  }
-
-  addToDiscovered(pokemon) {
-    // eslint-disable-next-line no-console
-    console.log('pokemon', pokemon);
-    fetch('/api/discovered', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(pokemon)
-    })
-      .then(res => res.json())
-      // eslint-disable-next-line no-console
-      .then(data => console.log(data));
-  }
-
   render() {
     const pokeID = this.props.id.id;
     const img = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeID}.png?raw=true`;
@@ -65,13 +38,13 @@ export default class Details extends React.Component {
           >
             Pokedex
           </button>
-          <div className='container text-center'>
+          <div className="container text-center">
             <button
               type="button"
               className="btn btn-success text-center"
-              onClick={() => this.addToDiscovered(this.props.id.id)}
+              onClick={() => this.props.addToDiscovered(this.props.id.id)}
             >
-            Caught
+              Caught
             </button>
           </div>
         </div>

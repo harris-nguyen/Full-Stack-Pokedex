@@ -14,18 +14,16 @@ export default class App extends React.Component {
       view: { name: 'pokedex', params: {} },
       visiable: 9,
       test: '',
-      wishlist: [],
-      pokeid: [],
-      userid: []
+      pokeid: []
     };
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
     this.setView = this.setView.bind(this);
     this.getTest = this.getTest.bind(this);
+    this.addToDiscovered = this.addToDiscovered.bind(this);
   }
 
   componentDidMount() {
-
     this.getTest();
     this.getPokeApi();
 
@@ -36,9 +34,7 @@ export default class App extends React.Component {
           message: data.message || data.error
         })
       )
-      .catch(err =>
-        this.setState({ message: err.message })
-      )
+      .catch(err => this.setState({ message: err.message }))
       .finally(() => this.setState({ isLoading: false }));
   }
 
@@ -49,13 +45,25 @@ export default class App extends React.Component {
       })
       .then(discovered => {
         const pokeid = discovered.map(e => e.pokeid);
-        const userid = discovered.map(e => e.user_id);
-        this.setState({
-          pokeid: pokeid,
-          userid: userid
-        });
+        this.setState({ pokeid: pokeid });
       })
       .catch(err => console.error(err));
+  }
+
+  addToDiscovered(pokemon) {
+    // eslint-disable-next-line no-console
+    console.log('pokemon', pokemon);
+    fetch('/api/discovered', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(pokemon)
+    })
+      .then(res => res.json())
+      .then(data =>
+        this.setState({ pokeid: this.state.pokeid.concat(data) })
+      );
   }
 
   setView(name, params) {
@@ -86,7 +94,8 @@ export default class App extends React.Component {
   }
 
   render() {
-
+    // eslint-disable-next-line no-console
+    console.log('caught arr', this.state.pokeid);
     switch (this.state.view.name) {
       case 'pokedex':
         return (
@@ -114,7 +123,12 @@ export default class App extends React.Component {
             </div>
 
             <div>
-              <Details setView={this.setView} id={this.state.view.params} />
+              <Details
+                setView={this.setView}
+                id={this.state.view.params}
+                caughtArr={this.state.pokeid}
+                addToDiscovered={this.addToDiscovered}
+              />
             </div>
           </div>
         );

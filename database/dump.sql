@@ -16,19 +16,28 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+ALTER TABLE ONLY public.discovered DROP CONSTRAINT discovered_user_id_fkey;
 ALTER TABLE ONLY public.caughtpokemon DROP CONSTRAINT caughtpokemon_users_id_fkey;
 ALTER TABLE ONLY public.caughtpokemon DROP CONSTRAINT caughtpokemon_list_id_fkey;
 ALTER TABLE ONLY public.users DROP CONSTRAINT users_username_key;
 ALTER TABLE ONLY public.users DROP CONSTRAINT users_pkey;
 ALTER TABLE ONLY public.list DROP CONSTRAINT list_pkey;
+ALTER TABLE ONLY public.discoveredpoke DROP CONSTRAINT discoveredpoke_pkey;
+ALTER TABLE ONLY public.discovered DROP CONSTRAINT discovered_pkey;
 ALTER TABLE ONLY public.caughtpokemon DROP CONSTRAINT caughtpokemon_pkey;
 ALTER TABLE public.users ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.list ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.discoveredpoke ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.discovered ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.caughtpokemon ALTER COLUMN id DROP DEFAULT;
 DROP SEQUENCE public.users_id_seq;
 DROP TABLE public.users;
 DROP SEQUENCE public.list_id_seq;
 DROP TABLE public.list;
+DROP SEQUENCE public.discoveredpoke_id_seq;
+DROP TABLE public.discoveredpoke;
+DROP SEQUENCE public.discovered_id_seq;
+DROP TABLE public.discovered;
 DROP SEQUENCE public.caughtpokemon_id_seq;
 DROP TABLE public.caughtpokemon;
 DROP EXTENSION plpgsql;
@@ -99,6 +108,69 @@ ALTER SEQUENCE public.caughtpokemon_id_seq OWNED BY public.caughtpokemon.id;
 
 
 --
+-- Name: discovered; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.discovered (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    pokeid integer NOT NULL,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+--
+-- Name: discovered_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.discovered_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: discovered_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.discovered_id_seq OWNED BY public.discovered.id;
+
+
+--
+-- Name: discoveredpoke; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.discoveredpoke (
+    id integer NOT NULL,
+    pokeid integer NOT NULL,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+--
+-- Name: discoveredpoke_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.discoveredpoke_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: discoveredpoke_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.discoveredpoke_id_seq OWNED BY public.discoveredpoke.id;
+
+
+--
 -- Name: list; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -164,6 +236,20 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 --
 
 ALTER TABLE ONLY public.caughtpokemon ALTER COLUMN id SET DEFAULT nextval('public.caughtpokemon_id_seq'::regclass);
+
+
+--
+-- Name: discovered id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.discovered ALTER COLUMN id SET DEFAULT nextval('public.discovered_id_seq'::regclass);
+
+
+--
+-- Name: discoveredpoke id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.discoveredpoke ALTER COLUMN id SET DEFAULT nextval('public.discoveredpoke_id_seq'::regclass);
 
 
 --
@@ -443,6 +529,34 @@ COPY public.caughtpokemon (id, list_id, users_id, pokeid, created_at) FROM stdin
 
 
 --
+-- Data for Name: discovered; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.discovered (id, user_id, pokeid, created_at) FROM stdin;
+2	3	1	2020-04-22 05:22:08.526299
+3	1	2	2020-04-22 05:44:48.950804
+4	1	2	2020-04-22 05:45:07.200173
+8	1	2	2020-04-22 05:52:39.943458
+9	1	2	2020-04-22 05:52:59.537275
+10	1	2	2020-04-22 05:54:36.783174
+13	1	2	2020-04-22 06:39:02.270312
+14	1	56	2020-04-22 07:54:44.457292
+26	1	56	2020-04-22 18:45:53.442556
+27	1	56	2020-04-22 18:46:55.343331
+28	1	56	2020-04-22 18:47:24.923093
+\.
+
+
+--
+-- Data for Name: discoveredpoke; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.discoveredpoke (id, pokeid, created_at) FROM stdin;
+1	25	2020-04-22 19:01:48.666758
+\.
+
+
+--
 -- Data for Name: list; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -469,6 +583,20 @@ SELECT pg_catalog.setval('public.caughtpokemon_id_seq', 255, true);
 
 
 --
+-- Name: discovered_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.discovered_id_seq', 29, true);
+
+
+--
+-- Name: discoveredpoke_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.discoveredpoke_id_seq', 1, true);
+
+
+--
 -- Name: list_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -488,6 +616,22 @@ SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
 ALTER TABLE ONLY public.caughtpokemon
     ADD CONSTRAINT caughtpokemon_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: discovered discovered_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.discovered
+    ADD CONSTRAINT discovered_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: discoveredpoke discoveredpoke_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.discoveredpoke
+    ADD CONSTRAINT discoveredpoke_pkey PRIMARY KEY (id);
 
 
 --
@@ -528,6 +672,14 @@ ALTER TABLE ONLY public.caughtpokemon
 
 ALTER TABLE ONLY public.caughtpokemon
     ADD CONSTRAINT caughtpokemon_users_id_fkey FOREIGN KEY (users_id) REFERENCES public.users(id);
+
+
+--
+-- Name: discovered discovered_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.discovered
+    ADD CONSTRAINT discovered_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
