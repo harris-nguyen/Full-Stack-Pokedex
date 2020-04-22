@@ -19,14 +19,36 @@ app.get('/api/health-check', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/test', (req, res, next) => {
-  db.query("select 'test connected from db' as \"message\"")
+app.get('/api/users', (req, res, next) => {
+  const sql = `
+    SELECT *
+    FROM "users";
+  `;
+  db.query(sql)
     .then(result => res.json(result.rows[0]))
     .catch(err => next(err));
 });
 
-app.post('/api/caught', (req, res, next) => {
+app.get('/api/caught', (req, res, next) => {
+  return res.status(200).json([]);
+  // const sql = `
+  //   SELECT *
+  //   FROM "caughtpokemon";
+  // `;
+  // db.query(sql)
+  //   .then(result => res.json(result.rows[0]))
+  //   .catch(err => next(err));
+});
 
+app.get('/api/wishlist', (req, res, next) => {
+  return res.status(200).json([]);
+  // const sql = `
+  //   SELECT *
+  //   FROM "list";
+  // `;
+  // db.query(sql)
+  //   .then(result => res.json(result.rows[0]))
+  //   .catch(err => next(err));
 });
 
 app.use('/api', (req, res, next) => {

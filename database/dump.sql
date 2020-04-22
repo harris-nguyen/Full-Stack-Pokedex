@@ -16,18 +16,21 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-ALTER TABLE ONLY public.products DROP CONSTRAINT products_pkey;
-ALTER TABLE ONLY public.caught DROP CONSTRAINT caught_pkey;
-ALTER TABLE ONLY public."caughtPokemon" DROP CONSTRAINT "caughtPokemon_pkey";
-ALTER TABLE public.products ALTER COLUMN "productId" DROP DEFAULT;
-ALTER TABLE public."caughtPokemon" ALTER COLUMN "caughtId" DROP DEFAULT;
-ALTER TABLE public.caught ALTER COLUMN "caughtId" DROP DEFAULT;
-DROP SEQUENCE public."products_productId_seq";
-DROP TABLE public.products;
-DROP SEQUENCE public."caught_caughtId_seq";
-DROP SEQUENCE public."caughtPokemon_caughtId_seq";
-DROP TABLE public."caughtPokemon";
-DROP TABLE public.caught;
+ALTER TABLE ONLY public.caughtpokemon DROP CONSTRAINT caughtpokemon_users_id_fkey;
+ALTER TABLE ONLY public.caughtpokemon DROP CONSTRAINT caughtpokemon_list_id_fkey;
+ALTER TABLE ONLY public.users DROP CONSTRAINT users_username_key;
+ALTER TABLE ONLY public.users DROP CONSTRAINT users_pkey;
+ALTER TABLE ONLY public.list DROP CONSTRAINT list_pkey;
+ALTER TABLE ONLY public.caughtpokemon DROP CONSTRAINT caughtpokemon_pkey;
+ALTER TABLE public.users ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.list ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.caughtpokemon ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.users_id_seq;
+DROP TABLE public.users;
+DROP SEQUENCE public.list_id_seq;
+DROP TABLE public.list;
+DROP SEQUENCE public.caughtpokemon_id_seq;
+DROP TABLE public.caughtpokemon;
 DROP EXTENSION plpgsql;
 DROP SCHEMA public;
 --
@@ -63,31 +66,22 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: caught; Type: TABLE; Schema: public; Owner: -
+-- Name: caughtpokemon; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.caught (
-    "caughtId" integer NOT NULL,
-    "createdAt" timestamp(6) with time zone DEFAULT now() NOT NULL
+CREATE TABLE public.caughtpokemon (
+    id integer NOT NULL,
+    list_id integer NOT NULL,
+    users_id integer NOT NULL,
+    created_at timestamp without time zone DEFAULT now()
 );
 
 
 --
--- Name: caughtPokemon; Type: TABLE; Schema: public; Owner: -
+-- Name: caughtpokemon_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE TABLE public."caughtPokemon" (
-    "caughtId" integer NOT NULL,
-    "pokeId" integer NOT NULL,
-    "productId" integer NOT NULL
-);
-
-
---
--- Name: caughtPokemon_caughtId_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public."caughtPokemon_caughtId_seq"
+CREATE SEQUENCE public.caughtpokemon_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -97,51 +91,27 @@ CREATE SEQUENCE public."caughtPokemon_caughtId_seq"
 
 
 --
--- Name: caughtPokemon_caughtId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: caughtpokemon_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public."caughtPokemon_caughtId_seq" OWNED BY public."caughtPokemon"."caughtId";
-
-
---
--- Name: caught_caughtId_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public."caught_caughtId_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+ALTER SEQUENCE public.caughtpokemon_id_seq OWNED BY public.caughtpokemon.id;
 
 
 --
--- Name: caught_caughtId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: list; Type: TABLE; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public."caught_caughtId_seq" OWNED BY public.caught."caughtId";
-
-
---
--- Name: products; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.products (
-    "productId" integer NOT NULL,
-    name text NOT NULL,
-    price integer NOT NULL,
-    image text NOT NULL,
-    "shortDescription" text NOT NULL,
-    "longDescription" text NOT NULL
+CREATE TABLE public.list (
+    id integer NOT NULL,
+    created_at timestamp without time zone DEFAULT now()
 );
 
 
 --
--- Name: products_productId_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: list_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public."products_productId_seq"
+CREATE SEQUENCE public.list_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -151,106 +121,157 @@ CREATE SEQUENCE public."products_productId_seq"
 
 
 --
--- Name: products_productId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: list_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public."products_productId_seq" OWNED BY public.products."productId";
-
-
---
--- Name: caught caughtId; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.caught ALTER COLUMN "caughtId" SET DEFAULT nextval('public."caught_caughtId_seq"'::regclass);
+ALTER SEQUENCE public.list_id_seq OWNED BY public.list.id;
 
 
 --
--- Name: caughtPokemon caughtId; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public."caughtPokemon" ALTER COLUMN "caughtId" SET DEFAULT nextval('public."caughtPokemon_caughtId_seq"'::regclass);
-
-
---
--- Name: products productId; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.products ALTER COLUMN "productId" SET DEFAULT nextval('public."products_productId_seq"'::regclass);
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    username character varying(255) NOT NULL,
+    created_at timestamp without time zone DEFAULT now()
+);
 
 
 --
--- Data for Name: caught; Type: TABLE DATA; Schema: public; Owner: -
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-COPY public.caught ("caughtId", "createdAt") FROM stdin;
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: caughtpokemon id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.caughtpokemon ALTER COLUMN id SET DEFAULT nextval('public.caughtpokemon_id_seq'::regclass);
+
+
+--
+-- Name: list id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.list ALTER COLUMN id SET DEFAULT nextval('public.list_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: caughtpokemon; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.caughtpokemon (id, list_id, users_id, created_at) FROM stdin;
 \.
 
 
 --
--- Data for Name: caughtPokemon; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: list; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."caughtPokemon" ("caughtId", "pokeId", "productId") FROM stdin;
+COPY public.list (id, created_at) FROM stdin;
 \.
 
 
 --
--- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.products ("productId", name, price, image, "shortDescription", "longDescription") FROM stdin;
-1	Shake Weight	2999	/images/shake-weight.jpg	Dynamic Inertia technology ignites muscles in arms, shoulders, and chest.	Lorem ipsum dolor amet fashion axe pour-over jianbing, adaptogen waistcoat tacos master cleanse pitchfork next level. Thundercats pour-over chartreuse 90's. Master cleanse hot chicken ennui offal. Freegan slow-carb offal hell of. Umami polaroid wolf slow-carb next level. Gentrify cardigan seitan, kombucha tacos chambray roof party typewriter man braid. Tote bag lo-fi hell of chia fam hammock\\n.Aesthetic photo booth la croix, vaporware leggings biodiesel man braid tumeric skateboard tousled slow-carb four dollar toast synth pabst pickled. Typewriter church-key chia slow-carb vice gochujang actually. Shoreditch austin woke hot chicken, single-origin coffee ugh affogato four loko green juice. Migas iPhone four dollar toast mustache.
-2	ShamWow	2595	/images/shamwow.jpg	It's like a chamois, towel, and sponge, all in one! Soaks up to 10x it's weight in any liquid!	Lorem ipsum dolor amet fashion axe pour-over jianbing, adaptogen waistcoat tacos master cleanse pitchfork next level. Thundercats pour-over chartreuse 90's. Master cleanse hot chicken ennui offal. Freegan slow-carb offal hell of. Umami polaroid wolf slow-carb next level. Gentrify cardigan seitan, kombucha tacos chambray roof party typewriter man braid. Tote bag lo-fi hell of chia fam hammock\\n.Aesthetic photo booth la croix, vaporware leggings biodiesel man braid tumeric skateboard tousled slow-carb four dollar toast synth pabst pickled. Typewriter church-key chia slow-carb vice gochujang actually. Shoreditch austin woke hot chicken, single-origin coffee ugh affogato four loko green juice. Migas iPhone four dollar toast mustache.
-3	Snuggie	2900	/images/snuggie.jpg	Super-Soft Fleece with pockets! One Size fits all Adults! Keeps you Warm & Your Hands-Free!	Lorem ipsum dolor amet fashion axe pour-over jianbing, adaptogen waistcoat tacos master cleanse pitchfork next level. Thundercats pour-over chartreuse 90's. Master cleanse hot chicken ennui offal. Freegan slow-carb offal hell of. Umami polaroid wolf slow-carb next level. Gentrify cardigan seitan, kombucha tacos chambray roof party typewriter man braid. Tote bag lo-fi hell of chia fam hammock\\n.Aesthetic photo booth la croix, vaporware leggings biodiesel man braid tumeric skateboard tousled slow-carb four dollar toast synth pabst pickled. Typewriter church-key chia slow-carb vice gochujang actually. Shoreditch austin woke hot chicken, single-origin coffee ugh affogato four loko green juice. Migas iPhone four dollar toast mustache.
-4	Wax Vac	999	/images/wax-vac.jpg	Gentle way to remove ear wax. Safe and hygienic. Reduces the risk of painful infections.	Lorem ipsum dolor amet fashion axe pour-over jianbing, adaptogen waistcoat tacos master cleanse pitchfork next level. Thundercats pour-over chartreuse 90's. Master cleanse hot chicken ennui offal. Freegan slow-carb offal hell of. Umami polaroid wolf slow-carb next level. Gentrify cardigan seitan, kombucha tacos chambray roof party typewriter man braid. Tote bag lo-fi hell of chia fam hammock\\n.Aesthetic photo booth la croix, vaporware leggings biodiesel man braid tumeric skateboard tousled slow-carb four dollar toast synth pabst pickled. Typewriter church-key chia slow-carb vice gochujang actually. Shoreditch austin woke hot chicken, single-origin coffee ugh affogato four loko green juice. Migas iPhone four dollar toast mustache.
-5	Ostrich Pillow	9900	/images/ostrich-pillow.jpg	Create your own snugly space in the world and feel-good anywhere with the ultimate cocoon pillow.	Lorem ipsum dolor amet fashion axe pour-over jianbing, adaptogen waistcoat tacos master cleanse pitchfork next level. Thundercats pour-over chartreuse 90's. Master cleanse hot chicken ennui offal. Freegan slow-carb offal hell of. Umami polaroid wolf slow-carb next level. Gentrify cardigan seitan, kombucha tacos chambray roof party typewriter man braid. Tote bag lo-fi hell of chia fam hammock\\n.Aesthetic photo booth la croix, vaporware leggings biodiesel man braid tumeric skateboard tousled slow-carb four dollar toast synth pabst pickled. Typewriter church-key chia slow-carb vice gochujang actually. Shoreditch austin woke hot chicken, single-origin coffee ugh affogato four loko green juice. Migas iPhone four dollar toast mustache.
-6	Tater Mitts	830	/images/tater-mitts.jpg	8 Seconds is all you need with Tater Mitts. Quickly and easily prepare all your favorite potato dishes with Tater Mitts.	Lorem ipsum dolor amet fashion axe pour-over jianbing, adaptogen waistcoat tacos master cleanse pitchfork next level. Thundercats pour-over chartreuse 90's. Master cleanse hot chicken ennui offal. Freegan slow-carb offal hell of. Umami polaroid wolf slow-carb next level. Gentrify cardigan seitan, kombucha tacos chambray roof party typewriter man braid. Tote bag lo-fi hell of chia fam hammock\\n.Aesthetic photo booth la croix, vaporware leggings biodiesel man braid tumeric skateboard tousled slow-carb four dollar toast synth pabst pickled. Typewriter church-key chia slow-carb vice gochujang actually. Shoreditch austin woke hot chicken, single-origin coffee ugh affogato four loko green juice. Migas iPhone four dollar toast mustache.
+COPY public.users (id, username, created_at) FROM stdin;
+1	user1	2020-04-22 02:59:17.856466
+3	user2	2020-04-22 02:59:32.024299
 \.
 
 
 --
--- Name: caughtPokemon_caughtId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: caughtpokemon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."caughtPokemon_caughtId_seq"', 1, false);
-
-
---
--- Name: caught_caughtId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public."caught_caughtId_seq"', 1, false);
+SELECT pg_catalog.setval('public.caughtpokemon_id_seq', 1, false);
 
 
 --
--- Name: products_productId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: list_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."products_productId_seq"', 1, false);
-
-
---
--- Name: caughtPokemon caughtPokemon_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public."caughtPokemon"
-    ADD CONSTRAINT "caughtPokemon_pkey" PRIMARY KEY ("caughtId");
+SELECT pg_catalog.setval('public.list_id_seq', 1, false);
 
 
 --
--- Name: caught caught_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.caught
-    ADD CONSTRAINT caught_pkey PRIMARY KEY ("caughtId");
+SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
 
 --
--- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: caughtpokemon caughtpokemon_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.products
-    ADD CONSTRAINT products_pkey PRIMARY KEY ("productId");
+ALTER TABLE ONLY public.caughtpokemon
+    ADD CONSTRAINT caughtpokemon_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: list list_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.list
+    ADD CONSTRAINT list_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- Name: caughtpokemon caughtpokemon_list_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.caughtpokemon
+    ADD CONSTRAINT caughtpokemon_list_id_fkey FOREIGN KEY (list_id) REFERENCES public.list(id);
+
+
+--
+-- Name: caughtpokemon caughtpokemon_users_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.caughtpokemon
+    ADD CONSTRAINT caughtpokemon_users_id_fkey FOREIGN KEY (users_id) REFERENCES public.users(id);
 
 
 --

@@ -39,7 +39,7 @@ export default class App extends React.Component {
   }
 
   getTest() {
-    fetch('/api/test')
+    fetch('/api/caught')
       .then(response => {
         return response.json();
       })
