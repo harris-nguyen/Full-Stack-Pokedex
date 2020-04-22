@@ -14,7 +14,8 @@ export default class App extends React.Component {
       view: { name: 'pokedex', params: {} },
       visiable: 9,
       test: '',
-      pokeid: []
+      pokeid: [],
+      id: []
     };
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
@@ -57,7 +58,11 @@ export default class App extends React.Component {
       })
       .then(discovered => {
         const pokeid = discovered.map(e => e.pokeid);
-        this.setState({ pokeid: pokeid });
+        const id = discovered.map(e => e.id);
+        this.setState({
+          pokeid: pokeid,
+          id: id
+        });
       })
       .catch(err => console.error(err));
   }
@@ -139,6 +144,7 @@ export default class App extends React.Component {
                 setView={this.setView}
                 pokeid={this.state.pokeid}
                 userid={this.state.userid}
+                id={this.state.id}
               />
             </div>
           </div>

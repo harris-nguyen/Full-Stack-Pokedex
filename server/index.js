@@ -29,49 +29,10 @@ app.get('/api/users', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// app.get('/api/discovered', (req, res, next) => {
-//   const sql = `
-//     SELECT "user_id", "pokeid"
-//     FROM "discovered";
-//   `;
-//   db.query(sql)
-//     .then(result => res.json(result.rows))
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({
-//         error: 'An unexpected error occurred.'
-//       });
-//     });
-// });
-
-// app.post('/api/discovered', (req, res, next) => {
-//   const userId = req.body.user_id;
-//   const { pokeid } = req.body;
-//   const value = [userId, pokeid];
-
-//   const sql = `
-//     INSERT INTO "discovered" ("user_id", "pokeid")
-//     VALUES ($1, $2)
-//     RETURNING *
-//   `;
-
-//   db.query(sql, value)
-//     .then(result => {
-//       const data = result.rows[0];
-//       res.status(201).json(data);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({
-//         error: 'An unexpected error occurred from POST discovered.'
-//       });
-//     });
-// });
-
 app.get('/api/discovered', (req, res, next) => {
   const sql = `
-    SELECT "pokeid"
-    FROM "discoveredpoke";
+    SELECT "pokeid", "id"
+    FROM "discoveredpoke"
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
@@ -90,6 +51,7 @@ app.post('/api/discovered', (req, res, next) => {
   const sql = `
     INSERT INTO "discoveredpoke" ("pokeid")
     VALUES ($1)
+    RETURNING *
   `;
 
   db.query(sql, value)
@@ -101,6 +63,29 @@ app.post('/api/discovered', (req, res, next) => {
       console.error(err);
       res.status(500).json({
         error: 'An unexpected error occurred from POST discovered.'
+      });
+    });
+});
+
+app.delete('/api/discovered/:id', (req, res, next) => {
+  const id = (req.params.id);
+
+  const sql = `
+  DELETE FROM "discoveredpoke"
+  WHERE "id" = $1
+  RETURNING *
+  `;
+
+  db.query(sql, [id])
+    .then(result => {
+      const data = result.rows;
+      delete result.rows[0].id;
+      res.status(201).json(data);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'An unexpected error occurred from DELETE.'
       });
     });
 });
