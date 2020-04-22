@@ -17,7 +17,6 @@ export default class Discovered extends React.Component {
     return (
       <div>
         <div className="container text-center ">
-          <h1>Caught Pokemon</h1>
           <button
             type="button"
             className="btn btn-link"
@@ -26,7 +25,14 @@ export default class Discovered extends React.Component {
             Pokedex
           </button>
         </div>
-        <div className="conatiner card-deck blueBackGround">{pokeid}</div>
+        <h1 className="text-center">Caught Pokemon</h1>
+        <div>
+          {data.length === 0 ? (
+            <h3 className="text-center">History Empty</h3>
+          ) : (
+            <div className="conatiner card-deck blueBackGround">{pokeid}</div>
+          )}
+        </div>
       </div>
     );
   }

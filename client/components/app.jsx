@@ -63,8 +63,6 @@ export default class App extends React.Component {
   }
 
   addToDiscovered(pokemon) {
-    // eslint-disable-next-line no-console
-    console.log('pokemon id', pokemon);
     fetch('/api/discovered', {
       method: 'POST',
       headers: {
@@ -93,8 +91,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    // eslint-disable-next-line no-console
-    console.log('caught arr', this.state.pokeid);
     switch (this.state.view.name) {
       case 'pokedex':
         return (
