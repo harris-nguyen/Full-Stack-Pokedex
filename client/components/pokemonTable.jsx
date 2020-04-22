@@ -9,7 +9,8 @@ export default class PokemonTable extends React.Component {
       weight: '',
       type: '',
       abilities: '',
-      stats1: ''
+      stats1: '',
+      test: ''
     };
     this.getPokeType = this.getPokeType.bind(this);
   }

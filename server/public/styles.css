@@ -26,6 +26,10 @@ font-size: 1rem;
   background-color: #cc0000;
 }
 
+.blueBackGround {
+  background-color: #4682B4;
+}
+
 .borderRed {
   border: 3px solid #cc0000;
 }

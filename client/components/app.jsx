@@ -2,6 +2,7 @@ import React from 'react';
 import Pokemon from './pokemon';
 import Details from './Details';
 import Header from './Header';
+import Discovered from './discovered';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -10,23 +11,52 @@ export default class App extends React.Component {
       message: null,
       isLoading: true,
       allpokemon: [],
-      view: { name: 'pokedex', params: {} },
-      visiable: 9
+      view: { name: 'discovered', params: {} },
+      visiable: 9,
+      test: '',
+      wishlist: [],
+      discovered: [],
+      pokeid: [],
+      userid: []
     };
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
     this.setView = this.setView.bind(this);
+    this.getTest = this.getTest.bind(this);
   }
 
   componentDidMount() {
+
+    this.getTest();
     this.getPokeApi();
+
     fetch('/api/health-check')
       .then(res => res.json())
       .then(data =>
-        this.setState({ message: data.message || data.error })
+        this.setState({
+          message: data.message || data.error
+        })
       )
-      .catch(err => this.setState({ message: err.message }))
+      .catch(err =>
+        this.setState({ message: err.message })
+      )
       .finally(() => this.setState({ isLoading: false }));
+  }
+
+  getTest() {
+    fetch('/api/discovered')
+      .then(response => {
+        return response.json();
+      })
+      .then(discovered => {
+        const pokeid = discovered.map(e => e.pokeid);
+        const userid = discovered.map(e => e.user_id);
+        this.setState({
+          pokeid: pokeid,
+          userid: userid
+        });
+      })
+      .catch(err => console.error(err));
   }
 
   setView(name, params) {
@@ -57,6 +87,7 @@ export default class App extends React.Component {
   }
 
   render() {
+
     switch (this.state.view.name) {
       case 'pokedex':
         return (
@@ -85,6 +116,22 @@ export default class App extends React.Component {
 
             <div>
               <Details setView={this.setView} id={this.state.view.params} />
+            </div>
+          </div>
+        );
+      case 'discovered':
+        return (
+          <div>
+            <div>
+              <Header />
+            </div>
+
+            <div>
+              <Discovered
+                setView={this.setView}
+                pokeid={this.state.pokeid}
+                userid={this.state.userid}
+              />
             </div>
           </div>
         );
