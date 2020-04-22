@@ -30,25 +30,23 @@ app.get('/api/users', (req, res, next) => {
 });
 
 app.get('/api/caught', (req, res, next) => {
-  return res.status(200).json([]);
-  // const sql = `
-  //   SELECT *
-  //   FROM "caughtpokemon";
-  // `;
-  // db.query(sql)
-  //   .then(result => res.json(result.rows[0]))
-  //   .catch(err => next(err));
+  const sql = `
+    SELECT *
+    FROM "caughtpokemon";
+  `;
+  db.query(sql)
+    .then(result => res.json(result.rows[0]))
+    .catch(err => next(err));
 });
 
 app.get('/api/wishlist', (req, res, next) => {
-  return res.status(200).json([]);
-  // const sql = `
-  //   SELECT *
-  //   FROM "list";
-  // `;
-  // db.query(sql)
-  //   .then(result => res.json(result.rows[0]))
-  //   .catch(err => next(err));
+  const sql = `
+    SELECT *
+    FROM "list";
+  `;
+  db.query(sql)
+    .then(result => res.json(result.rows[0]))
+    .catch(err => next(err));
 });
 
 app.use('/api', (req, res, next) => {

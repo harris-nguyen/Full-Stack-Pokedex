@@ -45,7 +45,7 @@ export default class App extends React.Component {
       })
       .then(data => {
         // eslint-disable-next-line no-console
-        console.log('data:', data);
+        console.log('caught:', data.pokeid);
       });
   }
 

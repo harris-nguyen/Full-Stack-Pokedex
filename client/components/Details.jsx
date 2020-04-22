@@ -1,6 +1,40 @@
 import React from 'react';
 
 export default class Details extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      wishlist: []
+    };
+  }
+
+  componentDidMount() {
+    const id = this.props.id.id;
+    fetch(`/api/wishlist/${id}`)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState({
+          wishlist: data
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  addToCart(pokemon) {
+    fetch('/api/wishlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(pokemon)
+    })
+      .then(res => res.json())
+      .then(cartItem =>
+        this.setState({ wishlist: this.state.cart.concat(cartItem) })
+      );
+  }
 
   render() {
     const pokeID = this.props.id.id;
@@ -38,6 +72,13 @@ export default class Details extends React.Component {
             onClick={() => this.props.setView('pokedex', {})}
           >
             Pokedex
+          </button>
+          <button
+            type="button"
+            className="btn btn-link text-center"
+            onClick={() => this.addToCart(this.props.id.id)}
+          >
+            Caught
           </button>
         </div>
       </div>
