@@ -90,7 +90,6 @@ app.post('/api/discovered', (req, res, next) => {
   const sql = `
     INSERT INTO "discoveredpoke" ("pokeid")
     VALUES ($1)
-
   `;
 
   db.query(sql, value)

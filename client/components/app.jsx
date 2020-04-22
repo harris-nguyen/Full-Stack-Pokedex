@@ -38,6 +38,18 @@ export default class App extends React.Component {
       .finally(() => this.setState({ isLoading: false }));
   }
 
+  setView(name, params) {
+    this.setState({ view: { name, params } });
+  }
+
+  loadmore() {
+    this.setState(old => {
+      return {
+        visiable: old.visiable + 9
+      };
+    });
+  }
+
   getTest() {
     fetch('/api/discovered')
       .then(response => {
@@ -52,30 +64,17 @@ export default class App extends React.Component {
 
   addToDiscovered(pokemon) {
     // eslint-disable-next-line no-console
-    console.log('pokemon', pokemon);
+    console.log('pokemon id', pokemon);
     fetch('/api/discovered', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(pokemon)
+      body: JSON.stringify({ pokeid: pokemon })
     })
-      .then(res => res.json())
       .then(data =>
-        this.setState({ pokeid: this.state.pokeid.concat(data) })
+        this.setState({ pokeid: this.state.pokeid.concat(pokemon) })
       );
-  }
-
-  setView(name, params) {
-    this.setState({ view: { name, params } });
-  }
-
-  loadmore() {
-    this.setState(old => {
-      return {
-        visiable: old.visiable + 9
-      };
-    });
   }
 
   getPokeApi() {
