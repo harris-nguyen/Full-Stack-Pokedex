@@ -19,10 +19,10 @@ app.get('/api/health-check', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/caught', (req, res, next) => {
-  if (!('caughtId' in req.session)) {
-    return res.status(200).json([]);
-  }
+app.get('/api/test', (req, res, next) => {
+  db.query("select 'test connected from db' as \"message\"")
+    .then(result => res.json(result.rows[0]))
+    .catch(err => next(err));
 });
 
 app.post('/api/caught', (req, res, next) => {

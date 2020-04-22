@@ -11,22 +11,42 @@ export default class App extends React.Component {
       isLoading: true,
       allpokemon: [],
       view: { name: 'pokedex', params: {} },
-      visiable: 9
+      visiable: 9,
+      test: ''
     };
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
     this.setView = this.setView.bind(this);
+    this.getTest = this.getTest.bind(this);
+
   }
 
   componentDidMount() {
+    // eslint-disable-next-line no-console
+    console.log(this.getTest());
     this.getPokeApi();
     fetch('/api/health-check')
       .then(res => res.json())
       .then(data =>
-        this.setState({ message: data.message || data.error })
+        this.setState({
+          message: data.message || data.error
+        })
       )
-      .catch(err => this.setState({ message: err.message }))
+      .catch(err =>
+        this.setState({ message: err.message })
+      )
       .finally(() => this.setState({ isLoading: false }));
+  }
+
+  getTest() {
+    fetch('/api/test')
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        // eslint-disable-next-line no-console
+        console.log('data:', data);
+      });
   }
 
   setView(name, params) {
@@ -84,7 +104,10 @@ export default class App extends React.Component {
             </div>
 
             <div>
-              <Details setView={this.setView} id={this.state.view.params} />
+              <Details
+                setView={this.setView}
+                id={this.state.view.params}
+              />
             </div>
           </div>
         );
