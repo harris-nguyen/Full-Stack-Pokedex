@@ -4,27 +4,17 @@ export default class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      wishlist: [],
-      id: 0
+      wishlist: []
     };
+    this.addToDiscovered = this.addToDiscovered.bind(this);
   }
 
   componentDidMount() {
-    const id = this.props.id.id;
-    fetch(`/api/wishlist/${id}`)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({
-          wishlist: data
-        });
-      })
-      .catch(err => console.error(err));
+    this.addToDiscovered();
   }
 
-  addToCart(pokemon) {
-    fetch('/api/wishlist', {
+  addToDiscovered(pokemon) {
+    fetch('/api/discovered', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -32,11 +22,11 @@ export default class Details extends React.Component {
       body: JSON.stringify(pokemon)
     })
       .then(res => res.json())
-      .then(
-        // eslint-disable-next-line no-console
-        data => console.log('data', data)
-        // this.setState({ wishlist: this.state.wishlist.concat(data) })
-      );
+      .then(data => {
+        this.setState({
+          wishlist: this.state.wishlist.concat(data)
+        });
+      });
   }
 
   render() {
@@ -79,7 +69,7 @@ export default class Details extends React.Component {
           <button
             type="button"
             className="btn btn-link text-center"
-            onClick={() => (this.addToCart(this.props.id.id))}
+            onClick={() => this.addToDiscovered(this.props.id.id)}
           >
             Caught
           </button>
