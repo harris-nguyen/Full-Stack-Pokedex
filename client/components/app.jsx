@@ -15,7 +15,9 @@ export default class App extends React.Component {
       visiable: 9,
       test: '',
       wishlist: [],
-      discovered: []
+      discovered: [],
+      pokeid: [],
+      userid: []
     };
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
@@ -46,11 +48,15 @@ export default class App extends React.Component {
       .then(response => {
         return response.json();
       })
-      .then(data => {
+      .then(discovered => {
+        const pokeid = discovered.map(e => e.pokeid);
+        const userid = discovered.map(e => e.user_id);
         this.setState({
-          discovered: `POKEID: ${data.pokeid}`
+          pokeid: pokeid,
+          userid: userid
         });
-      });
+      })
+      .catch(err => console.error(err));
   }
 
   setView(name, params) {
@@ -123,7 +129,8 @@ export default class App extends React.Component {
             <div>
               <Discovered
                 setView={this.setView}
-                discovered={this.state.discovered}
+                pokeid={this.state.pokeid}
+                userid={this.state.userid}
               />
             </div>
           </div>

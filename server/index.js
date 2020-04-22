@@ -35,7 +35,7 @@ app.get('/api/discovered', (req, res, next) => {
     FROM "discovered";
   `;
   db.query(sql)
-    .then(result => res.json(result.rows[0]))
+    .then(result => res.json(result.rows))
     .catch(err => {
       console.error(err);
       res.status(500).json({
