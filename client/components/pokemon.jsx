@@ -12,6 +12,15 @@ export default class Pokemon extends React.Component {
     });
     return (
       <div>
+        <div className="container text-center">
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => this.props.setView('discovered', {})}
+          >
+            Caught List
+          </button>
+        </div>
         <div className="conatiner card-deck cardText text-center">
           {pokeData}
         </div>
