@@ -15,6 +15,15 @@ export default class Discovered extends React.Component {
             <div className="col">test</div>
           </div>
         </div>
+        <div className='container text-center'>
+          <button
+            type="button"
+            className="btn btn-link text-center"
+            onClick={() => this.props.setView('pokedex', {})}
+          >
+          Pokedex
+          </button>
+        </div>
       </div>
     );
   }

@@ -31,7 +31,7 @@ app.get('/api/users', (req, res, next) => {
 
 app.get('/api/discovered', (req, res, next) => {
   const sql = `
-    SELECT *
+    SELECT "user_id", "pokeid"
     FROM "discovered";
   `;
   db.query(sql)
@@ -47,16 +47,14 @@ app.get('/api/discovered', (req, res, next) => {
 app.post('/api/discovered', (req, res, next) => {
   const userId = req.body.user_id;
   const { pokeid } = req.body;
+  const value = [userId, pokeid];
 
-  if (!Number(pokeid)) {
-    return next(new ClientError(`${pokeid} must be a positive integer`, 400));
-  }
   const sql = `
     INSERT INTO "discovered" ("user_id", "pokeid")
     VALUES ($1, $2)
     RETURNING *
   `;
-  const value = [userId, pokeid];
+
   db.query(sql, value)
     .then(result => {
       const data = result.rows[0];

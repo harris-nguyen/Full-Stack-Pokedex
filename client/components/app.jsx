@@ -11,7 +11,7 @@ export default class App extends React.Component {
       message: null,
       isLoading: true,
       allpokemon: [],
-      view: { name: 'pokedex', params: {} },
+      view: { name: 'discovered', params: {} },
       visiable: 9,
       test: '',
       wishlist: [],

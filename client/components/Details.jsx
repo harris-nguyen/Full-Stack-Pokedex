@@ -14,6 +14,8 @@ export default class Details extends React.Component {
   }
 
   addToDiscovered(pokemon) {
+    // eslint-disable-next-line no-console
+    console.log('pokemon', pokemon);
     fetch('/api/discovered', {
       method: 'POST',
       headers: {
@@ -22,11 +24,8 @@ export default class Details extends React.Component {
       body: JSON.stringify(pokemon)
     })
       .then(res => res.json())
-      .then(data => {
-        this.setState({
-          wishlist: this.state.wishlist.concat(data)
-        });
-      });
+      // eslint-disable-next-line no-console
+      .then(data => console.log(data));
   }
 
   render() {
@@ -66,13 +65,15 @@ export default class Details extends React.Component {
           >
             Pokedex
           </button>
-          <button
-            type="button"
-            className="btn btn-link text-center"
-            onClick={() => this.addToDiscovered(this.props.id.id)}
-          >
+          <div className='container text-center'>
+            <button
+              type="button"
+              className="btn btn-success text-center"
+              onClick={() => this.addToDiscovered(this.props.id.id)}
+            >
             Caught
-          </button>
+            </button>
+          </div>
         </div>
       </div>
     );
