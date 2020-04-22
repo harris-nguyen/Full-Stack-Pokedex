@@ -2,6 +2,7 @@ import React from 'react';
 import Pokemon from './pokemon';
 import Details from './Details';
 import Header from './Header';
+import Discovered from './discovered';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -10,20 +11,19 @@ export default class App extends React.Component {
       message: null,
       isLoading: true,
       allpokemon: [],
-      view: { name: 'pokedex', params: {} },
+      view: { name: 'discovered', params: {} },
       visiable: 9,
-      test: ''
+      test: '',
+      wishlist: [],
+      discovered: []
     };
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
     this.setView = this.setView.bind(this);
     this.getTest = this.getTest.bind(this);
-
   }
 
   componentDidMount() {
-    // eslint-disable-next-line no-console
-    console.log(this.getTest());
     this.getPokeApi();
     fetch('/api/health-check')
       .then(res => res.json())
@@ -39,13 +39,14 @@ export default class App extends React.Component {
   }
 
   getTest() {
-    fetch('/api/caught')
+    fetch('/api/discovered')
       .then(response => {
         return response.json();
       })
       .then(data => {
-        // eslint-disable-next-line no-console
-        console.log('caught:', data.pokeid);
+        this.setState({
+          discovered: `POKEID: ${data.pokeid}`
+        });
       });
   }
 
@@ -77,6 +78,7 @@ export default class App extends React.Component {
   }
 
   render() {
+
     switch (this.state.view.name) {
       case 'pokedex':
         return (
@@ -104,9 +106,21 @@ export default class App extends React.Component {
             </div>
 
             <div>
-              <Details
+              <Details setView={this.setView} id={this.state.view.params} />
+            </div>
+          </div>
+        );
+      case 'discovered':
+        return (
+          <div>
+            <div>
+              <Header />
+            </div>
+
+            <div>
+              <Discovered
                 setView={this.setView}
-                id={this.state.view.params}
+                discovered={this.state.discovered}
               />
             </div>
           </div>

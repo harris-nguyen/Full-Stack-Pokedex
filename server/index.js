@@ -29,10 +29,10 @@ app.get('/api/users', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/caught', (req, res, next) => {
+app.get('/api/discovered', (req, res, next) => {
   const sql = `
     SELECT *
-    FROM "caughtpokemon";
+    FROM "discovered";
   `;
   db.query(sql)
     .then(result => res.json(result.rows[0]))
@@ -42,10 +42,25 @@ app.get('/api/caught', (req, res, next) => {
 app.get('/api/wishlist', (req, res, next) => {
   const sql = `
     SELECT *
-    FROM "list";
+    FROM "caughtpokemon";
   `;
   db.query(sql)
     .then(result => res.json(result.rows[0]))
+    .catch(err => next(err));
+});
+
+app.post('/api/wishlist', (req, res, next) => {
+  const listId = req.body.list_id;
+  const usersId = req.body.users_id;
+  const { pokeid } = req.body;
+
+  const sql = `
+  INSERT INTO "caughtpokemon" ("list_id", "users_id", "pokeid")
+  VALUES ($1, $2, $3);
+  `;
+  const values = [listId, usersId, pokeid];
+  db.query(sql, values)
+    .then(result => res.json(result.rows))
     .catch(err => next(err));
 });
 

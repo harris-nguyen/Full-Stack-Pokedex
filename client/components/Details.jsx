@@ -4,7 +4,8 @@ export default class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      wishlist: []
+      wishlist: [],
+      id: 0
     };
   }
 
@@ -31,8 +32,10 @@ export default class Details extends React.Component {
       body: JSON.stringify(pokemon)
     })
       .then(res => res.json())
-      .then(cartItem =>
-        this.setState({ wishlist: this.state.cart.concat(cartItem) })
+      .then(
+        // eslint-disable-next-line no-console
+        data => console.log('data', data)
+        // this.setState({ wishlist: this.state.wishlist.concat(data) })
       );
   }
 
@@ -76,7 +79,7 @@ export default class Details extends React.Component {
           <button
             type="button"
             className="btn btn-link text-center"
-            onClick={() => this.addToCart(this.props.id.id)}
+            onClick={() => (this.addToCart(this.props.id.id))}
           >
             Caught
           </button>
