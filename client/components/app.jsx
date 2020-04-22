@@ -11,11 +11,10 @@ export default class App extends React.Component {
       message: null,
       isLoading: true,
       allpokemon: [],
-      view: { name: 'discovered', params: {} },
+      view: { name: 'pokedex', params: {} },
       visiable: 9,
       test: '',
       wishlist: [],
-      discovered: [],
       pokeid: [],
       userid: []
     };
