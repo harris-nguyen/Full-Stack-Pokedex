@@ -16,7 +16,7 @@ export default class Details extends React.Component {
   }
 
   render() {
-
+    // const caughtArr = this.props.caughtArr.map(e => e === this.props.id.id);
     const pokeID = this.props.id.id;
     const img = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeID}.png?raw=true`;
     return (
@@ -60,7 +60,7 @@ export default class Details extends React.Component {
               onClick={() => this.props.addToDiscovered(this.props.id.id)}
             >
               {this.state.clicked === false ? (
-                <div >Caught</div>
+                <div>Caught</div>
               ) : (
                 <div className="maroonFont">Recorded</div>
               )}

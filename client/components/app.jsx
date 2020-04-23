@@ -75,10 +75,9 @@ export default class App extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ pokeid: pokemon })
-    })
-      .then(data =>
-        this.setState({ pokeid: this.state.pokeid.concat(pokemon) })
-      );
+    }).then(data =>
+      this.setState({ pokeid: this.state.pokeid.concat(pokemon) })
+    );
   }
 
   releasePokemon(id) {
