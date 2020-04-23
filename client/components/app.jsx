@@ -83,6 +83,12 @@ export default class App extends React.Component {
   }
 
   releasePokemon(id) {
+    // eslint-disable-next-line no-console
+    console.log('clicked', id);
+    const idSelected = this.state.pokeid.findIndex(
+      e => e === id
+    );
+
     fetch(`/api/discovered/${id}`, {
       method: 'DELETE',
       headers: {
@@ -91,7 +97,7 @@ export default class App extends React.Component {
     })
       .then(() => {
         const newArr = [...this.state.pokeid];
-        // newArr.splice(idSelected, 1);
+        newArr.splice(idSelected, 1);
         this.setState({
           pokeid: newArr
         });
@@ -115,6 +121,8 @@ export default class App extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line no-console
+    console.log(this.state.pokeid);
     switch (this.state.view.name) {
       case 'pokedex':
         return (

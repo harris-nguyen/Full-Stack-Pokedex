@@ -78,8 +78,8 @@ app.delete('/api/discovered/:pokeid', (req, res, next) => {
 
   db.query(sql, [pokeid])
     .then(result => {
-      const data = result.rows;
-      delete result.rows[0].pokeid;
+      const data = result.rows[0];
+      // delete result.rows[0].pokeid;
       res.status(201).json(data);
     })
     .catch(err => {
