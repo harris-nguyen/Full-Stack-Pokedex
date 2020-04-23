@@ -164,6 +164,7 @@ export default class App extends React.Component {
 
             <div>
               <Discovered
+                allpokemon={this.state.allpokemon}
                 setView={this.setView}
                 pokeid={this.state.pokeid}
                 userid={this.state.userid}
