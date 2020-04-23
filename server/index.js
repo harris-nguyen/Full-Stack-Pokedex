@@ -67,19 +67,19 @@ app.post('/api/discovered', (req, res, next) => {
     });
 });
 
-app.delete('/api/discovered/:id', (req, res, next) => {
-  const id = (req.params.id);
+app.delete('/api/discovered/:pokeid', (req, res, next) => {
+  const pokeid = parseInt(req.params.pokeid);
 
   const sql = `
   DELETE FROM "discoveredpoke"
-  WHERE "id" = $1
+  WHERE "pokeid" = $1
   RETURNING *
   `;
 
-  db.query(sql, [id])
+  db.query(sql, [pokeid])
     .then(result => {
       const data = result.rows;
-      delete result.rows[0].id;
+      delete result.rows[0].pokeid;
       res.status(201).json(data);
     })
     .catch(err => {

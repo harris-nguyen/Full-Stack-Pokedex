@@ -22,11 +22,13 @@ export default class App extends React.Component {
     this.setView = this.setView.bind(this);
     this.getTest = this.getTest.bind(this);
     this.addToDiscovered = this.addToDiscovered.bind(this);
+    this.releasePokemon = this.releasePokemon.bind(this);
   }
 
   componentDidMount() {
     this.getTest();
     this.getPokeApi();
+    this.releasePokemon();
 
     fetch('/api/health-check')
       .then(res => res.json())
@@ -78,6 +80,23 @@ export default class App extends React.Component {
       .then(data =>
         this.setState({ pokeid: this.state.pokeid.concat(pokemon) })
       );
+  }
+
+  releasePokemon(id) {
+    fetch(`/api/discovered/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(() => {
+        const newArr = [...this.state.pokeid];
+        // newArr.splice(idSelected, 1);
+        this.setState({
+          pokeid: newArr
+        });
+      })
+      .catch(err => console.error(err));
   }
 
   getPokeApi() {
@@ -145,6 +164,7 @@ export default class App extends React.Component {
                 pokeid={this.state.pokeid}
                 userid={this.state.userid}
                 id={this.state.id}
+                releasePokemon={this.releasePokemon}
               />
             </div>
           </div>

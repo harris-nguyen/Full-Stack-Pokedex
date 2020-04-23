@@ -5,10 +5,15 @@ export default class Discovered extends React.Component {
   render() {
     const data = this.props.pokeid;
     const id = this.props.id;
-    // eslint-disable-next-line no-console
-    console.log('iddddd', id);
     const pokeid = data.map((pokeid, index) => {
-      return <DiscoveredList key={index} pokeid={pokeid} />;
+      return (
+        <DiscoveredList
+          key={index}
+          pokeid={pokeid}
+          id={id}
+          releasePokemon={this.props.releasePokemon}
+        />
+      );
     });
 
     return (

@@ -18,7 +18,7 @@ export default class DiscoveredList extends React.Component {
                 type="button"
                 className="btn btn-primary"
                 // eslint-disable-next-line no-console
-                onClick={() => console.log('Released')}
+                onClick={() => this.props.releasePokemon(this.props.pokeid)}
               >
                 Release
               </button>
