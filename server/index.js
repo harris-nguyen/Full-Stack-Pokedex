@@ -29,49 +29,10 @@ app.get('/api/users', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// app.get('/api/discovered', (req, res, next) => {
-//   const sql = `
-//     SELECT "user_id", "pokeid"
-//     FROM "discovered";
-//   `;
-//   db.query(sql)
-//     .then(result => res.json(result.rows))
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({
-//         error: 'An unexpected error occurred.'
-//       });
-//     });
-// });
-
-// app.post('/api/discovered', (req, res, next) => {
-//   const userId = req.body.user_id;
-//   const { pokeid } = req.body;
-//   const value = [userId, pokeid];
-
-//   const sql = `
-//     INSERT INTO "discovered" ("user_id", "pokeid")
-//     VALUES ($1, $2)
-//     RETURNING *
-//   `;
-
-//   db.query(sql, value)
-//     .then(result => {
-//       const data = result.rows[0];
-//       res.status(201).json(data);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       res.status(500).json({
-//         error: 'An unexpected error occurred from POST discovered.'
-//       });
-//     });
-// });
-
 app.get('/api/discovered', (req, res, next) => {
   const sql = `
-    SELECT "pokeid"
-    FROM "discoveredpoke";
+    SELECT "pokeid", "id"
+    FROM "discoveredpoke"
   `;
   db.query(sql)
     .then(result => res.json(result.rows))
@@ -101,6 +62,28 @@ app.post('/api/discovered', (req, res, next) => {
       console.error(err);
       res.status(500).json({
         error: 'An unexpected error occurred from POST discovered.'
+      });
+    });
+});
+
+app.delete('/api/discovered/:pokeid', (req, res, next) => {
+  const pokeid = parseInt(req.params.pokeid);
+
+  const sql = `
+  DELETE FROM "discoveredpoke"
+  WHERE "pokeid" = $1
+  `;
+
+  db.query(sql, [pokeid])
+    .then(result =>
+      res.status(202).json({
+        message: 'Checklist item deleted successfully'
+      })
+    )
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'An unexpected error occurred from DELETE.'
       });
     });
 });

@@ -14,18 +14,21 @@ export default class App extends React.Component {
       view: { name: 'pokedex', params: {} },
       visiable: 9,
       test: '',
-      pokeid: []
+      pokeid: [],
+      id: []
     };
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
     this.setView = this.setView.bind(this);
     this.getTest = this.getTest.bind(this);
     this.addToDiscovered = this.addToDiscovered.bind(this);
+    this.releasePokemon = this.releasePokemon.bind(this);
   }
 
   componentDidMount() {
     this.getTest();
     this.getPokeApi();
+    this.releasePokemon();
 
     fetch('/api/health-check')
       .then(res => res.json())
@@ -57,7 +60,11 @@ export default class App extends React.Component {
       })
       .then(discovered => {
         const pokeid = discovered.map(e => e.pokeid);
-        this.setState({ pokeid: pokeid });
+        const id = discovered.map(e => e.id);
+        this.setState({
+          pokeid: pokeid,
+          id: id
+        });
       })
       .catch(err => console.error(err));
   }
@@ -73,6 +80,29 @@ export default class App extends React.Component {
       .then(data =>
         this.setState({ pokeid: this.state.pokeid.concat(pokemon) })
       );
+  }
+
+  releasePokemon(id) {
+    // eslint-disable-next-line no-console
+    console.log('clicked', id);
+    const idSelected = this.state.pokeid.findIndex(
+      e => e === id
+    );
+
+    fetch(`/api/discovered/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(() => {
+        const newArr = [...this.state.pokeid];
+        newArr.splice(idSelected, 1);
+        this.setState({
+          pokeid: newArr
+        });
+      })
+      .catch(err => console.error(err));
   }
 
   getPokeApi() {
@@ -91,6 +121,8 @@ export default class App extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line no-console
+    console.log(this.state.pokeid);
     switch (this.state.view.name) {
       case 'pokedex':
         return (
@@ -139,6 +171,8 @@ export default class App extends React.Component {
                 setView={this.setView}
                 pokeid={this.state.pokeid}
                 userid={this.state.userid}
+                id={this.state.id}
+                releasePokemon={this.releasePokemon}
               />
             </div>
           </div>

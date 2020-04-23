@@ -13,6 +13,16 @@ export default class DiscoveredList extends React.Component {
             alt="pokemon"
           ></img>
           <div className="card-body">
+            <div className="container text-center">
+              <button
+                type="button"
+                className="btn btn-primary"
+                // eslint-disable-next-line no-console
+                onClick={() => this.props.releasePokemon(this.props.pokeid)}
+              >
+                Release
+              </button>
+            </div>
           </div>
         </div>
       </div>
