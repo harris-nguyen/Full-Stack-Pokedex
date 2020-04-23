@@ -69,16 +69,19 @@ export default class App extends React.Component {
   }
 
   addToDiscovered(pokemon) {
-    fetch('/api/discovered', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ pokeid: pokemon })
-    })
-      .then(data =>
+    const test = this.state.pokeid.includes(pokemon);
+
+    if (!test) {
+      fetch('/api/discovered', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pokeid: pokemon })
+      }).then(data =>
         this.setState({ pokeid: this.state.pokeid.concat(pokemon) })
       );
+    }
   }
 
   releasePokemon(id) {
@@ -116,8 +119,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    // eslint-disable-next-line no-console
-    console.log('caught list:', this.state.pokeid);
     switch (this.state.view.name) {
       case 'pokedex':
         return (

@@ -66,6 +66,52 @@ app.post('/api/discovered', (req, res, next) => {
     });
 });
 
+// app.post('/api/discovered', (req, res, next) => {
+
+//   const sql = `
+//     SELECT *
+//     FROM "discoveredpoke"
+//   `;
+
+//   db.query(sql)
+//     .then(result => {
+//       const data = result.rows.map(e => e);
+//       return data;
+//     })
+
+//     .then(pokeiddd => {
+//       for (var i = 0; i < pokeiddd.length; i++) {
+
+//         // console.log('pokeiddd[i]', (pokeiddd[i]));
+//         // console.log('pokeid', (pokeiddd[i].pokeid));
+//         // console.log('req.body', req.body.pokeid);
+//         // console.log('===', ((pokeiddd[i].pokeid) === (req.body.pokeid)));
+
+//         if (Number(pokeiddd[i].pokeid) === Number(req.body.pokeid)) {
+//           return res.status(201).json({
+//             message: 'pokeId Exist'
+//           });
+//         } else {
+//           const sql = `
+//         INSERT INTO "discoveredpoke" ("pokeid")
+//         VALUES ($1)
+//         returning *
+//         `;
+//           return db.query(sql, [Number(req.body.pokeid)]).then(result => {
+//             const data = result.rows;
+//             res.status(201).json(data);
+//           });
+//         }
+//       }
+//     })
+//     .catch(err => {
+//       console.error(err);
+//       res.status(500).json({
+//         error: 'An unexpected error occurred from POST discovered.'
+//       });
+//     });
+// });
+
 app.delete('/api/discovered/:pokeid', (req, res, next) => {
   const pokeid = parseInt(req.params.pokeid);
 

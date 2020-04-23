@@ -1,6 +1,20 @@
 import React from 'react';
 
 export default class Details extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      clicked: false
+    };
+    this.clicked = this.clicked.bind(this);
+  }
+
+  clicked() {
+    this.setState({
+      clicked: true
+    });
+  }
+
   render() {
     const pokeID = this.props.id.id;
     const img = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeID}.png?raw=true`;
@@ -38,13 +52,18 @@ export default class Details extends React.Component {
           >
             Pokedex
           </button>
-          <div className="container text-center">
+          <div className="container text-center" onClick={this.clicked}>
             <button
               type="button"
               className="btn btn-success text-center"
               onClick={() => this.props.addToDiscovered(this.props.id.id)}
             >
-              Caught
+              {this.state.clicked === false &&
+              !this.props.caughtArr.includes(this.props.id.id) ? (
+                  <div>Caught</div>
+                ) : (
+                  <div className="maroonFont">Recorded</div>
+                )}
             </button>
           </div>
         </div>
