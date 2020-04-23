@@ -51,7 +51,6 @@ app.post('/api/discovered', (req, res, next) => {
   const sql = `
     INSERT INTO "discoveredpoke" ("pokeid")
     VALUES ($1)
-    RETURNING *
   `;
 
   db.query(sql, value)
@@ -73,15 +72,14 @@ app.delete('/api/discovered/:pokeid', (req, res, next) => {
   const sql = `
   DELETE FROM "discoveredpoke"
   WHERE "pokeid" = $1
-  RETURNING *
   `;
 
   db.query(sql, [pokeid])
-    .then(result => {
-      const data = result.rows[0];
-      // delete result.rows[0].pokeid;
-      res.status(201).json(data);
-    })
+    .then(result =>
+      res.status(202).json({
+        message: 'Checklist item deleted successfully'
+      })
+    )
     .catch(err => {
       console.error(err);
       res.status(500).json({
