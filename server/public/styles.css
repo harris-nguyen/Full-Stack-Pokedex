@@ -9,6 +9,10 @@ img {
   width: 50%;
 }
 
+.maroonFont {
+  color: maroon;
+}
+
 .cardText {
 font-size: 1rem;
 }

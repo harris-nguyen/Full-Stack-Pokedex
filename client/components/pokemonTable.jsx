@@ -82,14 +82,19 @@ export default class PokemonTable extends React.Component {
         }
       >
         <div className="card zoom">
-          {this.state.id <= 150
-            ? <img
+          {this.state.id <= 150 && this.state.id > 0 ? (
+            <img
               src={`./images/${pokeID}.png`}
               className="rounded w-50 p-3 center"
               alt="pokemon"
             ></img>
-            : <img src={img} className="rounded w-50 p-3 center" alt="pokemon"></img>
-          }
+          ) : (
+            <img
+              src={img}
+              className="rounded w-50 p-3 center"
+              alt="pokemon"
+            ></img>
+          )}
 
           <div className="card-body">
             <h5 className="card-title">

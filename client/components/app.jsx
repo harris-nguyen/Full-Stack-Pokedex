@@ -116,8 +116,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    // eslint-disable-next-line no-console
-    console.log('caught list:', this.state.pokeid);
     switch (this.state.view.name) {
       case 'pokedex':
         return (
