@@ -20,13 +20,13 @@ export default class App extends React.Component {
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
     this.setView = this.setView.bind(this);
-    this.getTest = this.getTest.bind(this);
+    this.getDiscovered = this.getDiscovered.bind(this);
     this.addToDiscovered = this.addToDiscovered.bind(this);
     this.releasePokemon = this.releasePokemon.bind(this);
   }
 
   componentDidMount() {
-    this.getTest();
+    this.getDiscovered();
     this.getPokeApi();
 
     fetch('/api/health-check')
@@ -52,7 +52,7 @@ export default class App extends React.Component {
     });
   }
 
-  getTest() {
+  getDiscovered() {
     fetch('/api/discovered')
       .then(response => {
         return response.json();

@@ -37,7 +37,7 @@ export default class PokemonTable extends React.Component {
 
         const pokeAbilities = `${
           abilities[0].charAt(0).toUpperCase() + abilities[0].slice(1)
-        }, ${abilities[1].charAt(0).toUpperCase() + abilities[1].slice(1)}`;
+        }, ${abilities[1] + abilities[1]}`;
 
         const stats = data.stats.map(e => e.stat.name);
         const baseStat = data.stats.map(e => e.base_stat);
@@ -82,11 +82,15 @@ export default class PokemonTable extends React.Component {
         }
       >
         <div className="card zoom">
-          <img
-            src={img}
-            className="rounded w-50 p-3 center"
-            alt="pokemon"
-          ></img>
+          {this.state.id <= 150
+            ? <img
+              src={`./images/${pokeID}.png`}
+              className="rounded w-50 p-3 center"
+              alt="pokemon"
+            ></img>
+            : <img src={img} className="rounded w-50 p-3 center" alt="pokemon"></img>
+          }
+
           <div className="card-body">
             <h5 className="card-title">
               {`${this.state.id}. `}
