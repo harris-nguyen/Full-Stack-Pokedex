@@ -20,15 +20,14 @@ export default class App extends React.Component {
     this.getPokeApi = this.getPokeApi.bind(this);
     this.loadmore = this.loadmore.bind(this);
     this.setView = this.setView.bind(this);
-    this.getTest = this.getTest.bind(this);
+    this.getDiscovered = this.getDiscovered.bind(this);
     this.addToDiscovered = this.addToDiscovered.bind(this);
     this.releasePokemon = this.releasePokemon.bind(this);
   }
 
   componentDidMount() {
-    this.getTest();
+    this.getDiscovered();
     this.getPokeApi();
-    this.releasePokemon();
 
     fetch('/api/health-check')
       .then(res => res.json())
@@ -53,7 +52,7 @@ export default class App extends React.Component {
     });
   }
 
-  getTest() {
+  getDiscovered() {
     fetch('/api/discovered')
       .then(response => {
         return response.json();
@@ -83,11 +82,7 @@ export default class App extends React.Component {
   }
 
   releasePokemon(id) {
-    // eslint-disable-next-line no-console
-    console.log('clicked', id);
-    const idSelected = this.state.pokeid.findIndex(
-      e => e === id
-    );
+    const idSelected = this.state.pokeid.findIndex(e => e === id);
 
     fetch(`/api/discovered/${id}`, {
       method: 'DELETE',
@@ -96,10 +91,10 @@ export default class App extends React.Component {
       }
     })
       .then(() => {
-        const newArr = [...this.state.pokeid];
-        newArr.splice(idSelected, 1);
+        const newPokeid = [...this.state.pokeid];
+        newPokeid.splice(idSelected, 1);
         this.setState({
-          pokeid: newArr
+          pokeid: newPokeid
         });
       })
       .catch(err => console.error(err));
@@ -122,7 +117,7 @@ export default class App extends React.Component {
 
   render() {
     // eslint-disable-next-line no-console
-    console.log(this.state.pokeid);
+    console.log('caught list:', this.state.pokeid);
     switch (this.state.view.name) {
       case 'pokedex':
         return (
