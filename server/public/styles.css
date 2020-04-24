@@ -30,6 +30,14 @@ font-size: 1rem;
   background-color: #cc0000;
 }
 
+.backGroundGreen {
+  background-color: green;
+}
+
+.greenFont {
+  color: green;
+}
+
 .blueBackGround {
   background-color: #4682B4;
 }

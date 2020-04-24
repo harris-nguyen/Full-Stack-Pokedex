@@ -12,6 +12,8 @@ export default class Discovered extends React.Component {
           pokeid={pokeid}
           id={id}
           releasePokemon={this.props.releasePokemon}
+          allpokemon={this.props.allpokemon}
+          setView={this.props.setView}
         />
       );
     });
