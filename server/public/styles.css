@@ -26,6 +26,13 @@ font-size: 1rem;
   border: 3px solid #cc0000;
 }
 
+.zoom2 {
+  transition: transform .1s;
+}
+
+.zoom2:hover {
+  transform: scale(1.1);
+}
 .backGroundRed {
   background-color: #cc0000;
 }
