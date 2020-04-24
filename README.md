@@ -13,7 +13,7 @@ Try the application live at [TBA]
 - App is Mobile Responsive
 
 ## Preview
-TBA
+![Full-Stack-Pokedex](pokedex.gif)
 
 ## System Requirements
 - Node.js 10 or higher
