@@ -55,7 +55,7 @@ export default class Details extends React.Component {
           <div className="container text-center" onClick={this.clicked}>
             <button
               type="button"
-              className="btn btn-success text-center"
+              className="btn btn-success text-center zoom2"
               onClick={() => this.props.addToDiscovered(this.props.id.id)}
             >
               {this.state.clicked === false &&
