@@ -10,7 +10,12 @@ export default class DiscoveredList extends React.Component {
     const img = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokeID}.png?raw=true`;
     return (
       <div className="col-sm-4 paddingCard">
-        <div className="card">
+        <div
+          className="card"
+          onClick={() =>
+            this.props.setView('discoveredInfo', { clicked: this.props.pokeid })
+          }
+        >
           <img
             src={img}
             className="rounded w-50 p-3 center"
@@ -21,7 +26,6 @@ export default class DiscoveredList extends React.Component {
               <button
                 type="button"
                 className="btn btn-primary"
-                // eslint-disable-next-line no-console
                 onClick={() => this.props.releasePokemon(this.props.pokeid)}
               >
                 Release

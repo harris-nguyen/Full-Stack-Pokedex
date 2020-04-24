@@ -3,6 +3,7 @@ import Pokemon from './pokemon';
 import Details from './Details';
 import Header from './Header';
 import Discovered from './discovered';
+import DiscoveredInfo from './DiscoveredInfo';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -170,6 +171,24 @@ export default class App extends React.Component {
                 userid={this.state.userid}
                 id={this.state.id}
                 releasePokemon={this.releasePokemon}
+              />
+            </div>
+          </div>
+        );
+      case 'discoveredInfo':
+        return (
+          <div>
+            <div>
+              <Header />
+            </div>
+
+            <div>
+              <DiscoveredInfo
+                allpokemon={this.state.allpokemon}
+                id={this.state.view.params}
+                setView={this.setView}
+                pokeid={this.state.pokeid}
+                iddd={this.state.id}
               />
             </div>
           </div>
