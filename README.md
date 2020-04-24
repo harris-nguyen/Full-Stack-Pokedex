@@ -6,11 +6,11 @@ Try the application live at [TBA]
 
 ## Features
 - User can view 9 Pokemon at a time which can go up to 807
-- User can view details of a Pokemon
+- User can view details of each Pokemon
 - User can catch (add) a Pokemon to their 'caught" list
 - User can release (delete) a Pokemon from their 'caught" list
-- User can view individual pokemon from 'caught" list
-- Mobile Responsiveness
+- User can view individual pokemon from 'caught" list to confirm they are ready for battle
+- App is Mobile Responsive
 
 ## Preview
 TBA
