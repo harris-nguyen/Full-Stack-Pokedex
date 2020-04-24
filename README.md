@@ -2,7 +2,7 @@
 A full stack Node.js and React Pokedex
 
 ## Live Demo
-Try the application live at [TBA]
+Try the application live at https://pokedex-go.harrisitowynn.com/
 
 ## Features
 - User can view 9 Pokemon at a time which can go up to 807
