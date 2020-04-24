@@ -23,7 +23,7 @@ TBA
 ## Getting Started
 1. Clone the repository.
 ```
-TBA
+https://github.com/harris-nguyen/Full-Stack-Pokedex.git
 ```
 2. Change directory to cloned folder
 ```
